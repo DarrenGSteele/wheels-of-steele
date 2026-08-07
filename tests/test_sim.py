@@ -1,6 +1,6 @@
 import pytest
 
-from sim import aero_drag, rolling_resistance
+from sim import aero_drag, grade_force, rolling_resistance
 from units import deg_to_rad
 
 
@@ -30,3 +30,20 @@ def test_rolling_resistance():
 
     # Assert
     assert rr == pytest.approx(100.47402619331)
+
+
+def test_grade_force():
+    # Arrange
+    mass = 1300  # kg
+    pos_theta = deg_to_rad(10)  # degs converted to rads
+    neg_theta = deg_to_rad(-10)  # degs converted to rads
+
+    # Act
+    pos_grade_force = grade_force(mass, pos_theta)
+    neg_grade_force = grade_force(mass, neg_theta)
+
+    # Assert
+    assert pos_grade_force == pytest.approx(2214.535209786)
+    assert pos_grade_force > neg_grade_force
+    assert pos_grade_force > 0
+    assert neg_grade_force < 0
