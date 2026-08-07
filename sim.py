@@ -26,3 +26,7 @@ def calc_road_load_force(
 
 def calc_power_at_wheels(road_load_force: float, velocity: float) -> float:
     return road_load_force * velocity
+
+
+def calc_electrical_power(mech_power: float, efficiency_percent: float) -> float:
+    return mech_power * efficiency_percent / 100
