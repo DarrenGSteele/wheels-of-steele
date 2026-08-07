@@ -3,21 +3,24 @@ import pytest
 from sim import (
     calc_aero_drag,
     calc_grade_force,
+    calc_power_at_wheels,
     calc_road_load_force,
     calc_rolling_resistance,
 )
-from units import deg_to_rad
+from units import deg_to_rad, kph_to_mps
 
 
 def test_calc_aero_drag_force():
     # Arrange
-    v = 100 * 1000 / 3600  # m/s
+    v_mps = kph_to_mps(100)  # kph converted to m/s
     rho = 1.225  # kg.m^3
     cd = 0.3  # coefficient
     area = 2.02  # m^2
 
     # Act
-    current_drag = calc_aero_drag(v, rho, cd, area)  # N
+    current_drag = calc_aero_drag(
+        velocity_mps=v_mps, rho=rho, coeff_drag=cd, x_section_area=area
+    )  # N
 
     # Assert
     # assert(current_drag == 286.4)
@@ -56,9 +59,9 @@ def test_calc_grade_force():
 
 def test_calc_road_load_force():
     # Arrange
-    grade_force = 2214.535209786
-    aero_drag = 286.400462962963
-    rolling_resistance = 100.47402619331
+    grade_force = 2214.535209786  # N
+    aero_drag = 286.400462962963  # N
+    rolling_resistance = 100.47402619331  # N
 
     # Act
     road_load_force = calc_road_load_force(
@@ -69,3 +72,17 @@ def test_calc_road_load_force():
 
     # Assert
     assert road_load_force == pytest.approx(2601.409698942273)
+
+
+def test_calc_power():
+    # Arrange
+    road_load_force = 2601.409698942273  # N
+    velocity = kph_to_mps(100)  # m/s
+
+    # Act
+    power_at_wheels = calc_power_at_wheels(
+        road_load_force=road_load_force, velocity=velocity
+    )
+
+    # Assert
+    assert power_at_wheels == pytest.approx(72261.38052617425)
