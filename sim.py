@@ -1,7 +1,9 @@
 from math import cos, sin
 
 
-def aero_drag(velocity: float, rho: float, coeff_drag: float, x_section_area) -> float:
+def aero_drag(
+    velocity: float, rho: float, coeff_drag: float, x_section_area: float
+) -> float:
     return (rho / 2) * velocity**2 * coeff_drag * x_section_area
 
 
@@ -14,3 +16,9 @@ def rolling_resistance(
 
 def grade_force(mass: float, theta: float, g: float = 9.81) -> float:
     return sin(theta) * mass * g
+
+
+def road_load_force(
+    grade_force: float, rolling_resistance: float, aero_drag: float
+) -> float:
+    return grade_force + rolling_resistance + aero_drag

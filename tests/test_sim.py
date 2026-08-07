@@ -1,6 +1,6 @@
 import pytest
 
-from sim import aero_drag, grade_force, rolling_resistance
+from sim import aero_drag, grade_force, road_load_force, rolling_resistance
 from units import deg_to_rad
 
 
@@ -47,3 +47,16 @@ def test_grade_force():
     assert pos_grade_force > neg_grade_force
     assert pos_grade_force > 0
     assert neg_grade_force < 0
+
+
+def test_road_load_force():
+    # Arrange
+    grade_force = 2214.535209786
+    aero_drag = 286.400462962963
+    rolling_resistance = 100.47402619331
+
+    # Act
+    rl_force = road_load_force(grade_force, aero_drag, rolling_resistance)
+
+    # Assert
+    assert rl_force == pytest.approx(2601.409698942273)
