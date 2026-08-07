@@ -7,6 +7,7 @@ from sim import (
     calc_power_at_wheels,
     calc_road_load_force,
     calc_rolling_resistance,
+    calc_vehicle_acceleration_force,
 )
 from units import deg_to_rad, kph_to_mps
 
@@ -82,7 +83,7 @@ def test_calc_power():
 
     # Act
     power_at_wheels = calc_power_at_wheels(
-        road_load_force=road_load_force, velocity=velocity
+        road_load_force_N=road_load_force, velocity_mps=velocity
     )
 
     # Assert
@@ -96,8 +97,27 @@ def test_calc_motor_electrical_power_in():
 
     # Act
     elec_power_into_motor = calc_motor_electrical_power_in(
-        mech_power_out=power_at_wheels, efficiency_percent=effy
+        mech_power_out_W=power_at_wheels, efficiency_percent=effy
     )
 
     # Assert
     assert elec_power_into_motor == pytest.approx(73736.1025777288)
+
+
+def test_calc_vehicle_acceleration_force():
+    # Arrange
+    mass = 1300  # kg
+    v1 = kph_to_mps(50)  # mps
+    v2 = kph_to_mps(51)  # mps
+    dt = 1  # sec
+
+    # Act
+    force = calc_vehicle_acceleration_force(
+        vehicle_mass_kg=mass,
+        initial_velocity_mps=v1,
+        final_velocity_mps=v2,
+        time_delta_secs=dt,
+    )
+
+    # Assert
+    assert force == pytest.approx(361.11111111)

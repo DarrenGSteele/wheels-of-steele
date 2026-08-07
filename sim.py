@@ -24,11 +24,22 @@ def calc_road_load_force(
     return grade_force + rolling_resistance + aero_drag
 
 
-def calc_power_at_wheels(road_load_force: float, velocity: float) -> float:
-    return road_load_force * velocity
+def calc_power_at_wheels(road_load_force_N: float, velocity_mps: float) -> float:
+    return road_load_force_N * velocity_mps
 
 
 def calc_motor_electrical_power_in(
-    mech_power_out: float, efficiency_percent: float
+    mech_power_out_W: float, efficiency_percent: float
 ) -> float:
-    return mech_power_out / efficiency_percent * 100
+    return mech_power_out_W / efficiency_percent * 100
+
+
+def calc_vehicle_acceleration_force(
+    vehicle_mass_kg: float,
+    initial_velocity_mps: float,
+    final_velocity_mps: float,
+    time_delta_secs: float,
+):
+    return (
+        vehicle_mass_kg * (final_velocity_mps - initial_velocity_mps) / time_delta_secs
+    )
