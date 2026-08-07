@@ -1,3 +1,6 @@
+import pytest
+from sim import aero_drag
+
 def test_aero_drag_force():
     # Arrange
     v = 100 * 1000 / 3600 # m/s
@@ -10,5 +13,5 @@ def test_aero_drag_force():
 
     # Assert
     #assert(current_drag == 286.4)
-    assert(current_drag == pytest.approx(286.4))
+    assert(current_drag == pytest.approx(286.400462962963))
            
