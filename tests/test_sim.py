@@ -1,5 +1,6 @@
 import pytest
-from sim import aero_drag
+from math import pi
+from sim import aero_drag, rolling_resistance
 
 def test_aero_drag_force():
     # Arrange
@@ -14,4 +15,15 @@ def test_aero_drag_force():
     # Assert
     #assert(current_drag == 286.4)
     assert(current_drag == pytest.approx(286.400462962963))
-           
+
+def test_rolling_resistance():
+    # Arrange
+    mass = 1300 # kg
+    crr = 0.008 # coefficient
+    theta = 10 / 360 * 2 * pi # rads
+
+    # Act
+    rr = rolling_resistance(mass, crr, theta)
+
+    # Assert
+    assert(rr == pytest.approx(100.47402619331))
