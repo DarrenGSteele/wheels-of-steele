@@ -2,8 +2,8 @@ import pytest
 
 from sim import (
     calc_aero_drag,
-    calc_electrical_power,
     calc_grade_force,
+    calc_motor_electrical_power_in,
     calc_power_at_wheels,
     calc_road_load_force,
     calc_rolling_resistance,
@@ -89,15 +89,15 @@ def test_calc_power():
     assert power_at_wheels == pytest.approx(72261.38052617425)
 
 
-def test_calc_electrical_power():
+def test_calc_motor_electrical_power_in():
     # Arrange
     power_at_wheels = 72261.38052617425  # Watts
     effy = 98  # percentage
 
     # Act
-    elec_power_into_motor = calc_electrical_power(
-        mech_power=power_at_wheels, efficiency_percent=effy
+    elec_power_into_motor = calc_motor_electrical_power_in(
+        mech_power_out=power_at_wheels, efficiency_percent=effy
     )
 
     # Assert
-    assert elec_power_into_motor == pytest.approx(70816.152915650765)
+    assert elec_power_into_motor == pytest.approx(73736.1025777288)
