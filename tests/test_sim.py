@@ -3,11 +3,12 @@ import pytest
 from sim import (
     calc_aero_drag,
     calc_grade_force,
+    calc_inertial_force,
     calc_motor_electrical_power_in,
     calc_power_at_wheels,
     calc_road_load_force,
     calc_rolling_resistance,
-    calc_vehicle_acceleration_force,
+    calc_tractive_force,
 )
 from units import deg_to_rad, kph_to_mps
 
@@ -76,7 +77,7 @@ def test_calc_road_load_force():
     assert road_load_force == pytest.approx(2601.409698942273)
 
 
-def test_calc_power():
+def test_calc_power_at_wheels():
     # Arrange
     road_load_force = 2601.409698942273  # N
     velocity = kph_to_mps(100)  # m/s
@@ -104,15 +105,15 @@ def test_calc_motor_electrical_power_in():
     assert elec_power_into_motor == pytest.approx(73736.1025777288)
 
 
-def test_calc_vehicle_acceleration_force():
+def test_calc_inertial_force():
     # Arrange
     mass = 1300  # kg
-    v1 = kph_to_mps(50)  # mps
-    v2 = kph_to_mps(51)  # mps
+    v1 = kph_to_mps(100)  # mps
+    v2 = kph_to_mps(101)  # mps
     dt = 1  # sec
 
     # Act
-    force = calc_vehicle_acceleration_force(
+    force = calc_inertial_force(
         vehicle_mass_kg=mass,
         initial_velocity_mps=v1,
         final_velocity_mps=v2,
@@ -121,3 +122,17 @@ def test_calc_vehicle_acceleration_force():
 
     # Assert
     assert force == pytest.approx(361.11111111)
+
+
+def test_calc_tractive_force():
+    # Arrange
+    road_load_force = 2601.409698942273
+    inertial_force = 361.11111111  # N
+
+    # Act
+    total_tractive_force = calc_tractive_force(
+        road_load_force_N=road_load_force, inertial_force_N=inertial_force
+    )
+
+    # Assert
+    assert total_tractive_force == pytest.approx(2962.520810052272)

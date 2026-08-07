@@ -34,7 +34,7 @@ def calc_motor_electrical_power_in(
     return mech_power_out_W / efficiency_percent * 100
 
 
-def calc_vehicle_acceleration_force(
+def calc_inertial_force(
     vehicle_mass_kg: float,
     initial_velocity_mps: float,
     final_velocity_mps: float,
@@ -43,3 +43,7 @@ def calc_vehicle_acceleration_force(
     return (
         vehicle_mass_kg * (final_velocity_mps - initial_velocity_mps) / time_delta_secs
     )
+
+
+def calc_tractive_force(inertial_force_N: float, road_load_force_N: float):
+    return inertial_force_N + road_load_force_N
