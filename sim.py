@@ -1,24 +1,24 @@
 from math import cos, sin
 
 
-def aero_drag(
+def calc_aero_drag(
     velocity: float, rho: float, coeff_drag: float, x_section_area: float
 ) -> float:
     return (rho / 2) * velocity**2 * coeff_drag * x_section_area
 
 
-def rolling_resistance(
+def calc_rolling_resistance(
     mass: float, coeff_rolling_restistance: float, theta: float, g: float = 9.81
 ) -> float:
     # slope up is +ve theta
     return coeff_rolling_restistance * mass * g * cos(theta)
 
 
-def grade_force(mass: float, theta: float, g: float = 9.81) -> float:
+def calc_grade_force(mass: float, theta: float, g: float = 9.81) -> float:
     return sin(theta) * mass * g
 
 
-def road_load_force(
+def calc_road_load_force(
     grade_force: float, rolling_resistance: float, aero_drag: float
 ) -> float:
     return grade_force + rolling_resistance + aero_drag
