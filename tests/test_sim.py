@@ -1,8 +1,7 @@
-from math import pi
-
 import pytest
 
 from sim import aero_drag, rolling_resistance
+from units import deg_to_rad
 
 
 def test_aero_drag_force():
@@ -24,7 +23,7 @@ def test_rolling_resistance():
     # Arrange
     mass = 1300  # kg
     crr = 0.008  # coefficient
-    theta = 10 / 360 * 2 * pi  # rads
+    theta = deg_to_rad(10)  # rads
 
     # Act
     rr = rolling_resistance(mass, crr, theta)
