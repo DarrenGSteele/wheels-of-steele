@@ -1,6 +1,7 @@
 import pytest
 
 from sim import (
+    DriveCycle,
     Vehicle,
     calc_aero_drag_force_N,
     calc_cycle_consumption_J,
@@ -26,6 +27,24 @@ def a_car() -> Vehicle:
     )
 
 
+@pytest.fixture
+def noddy_drive_cycle() -> DriveCycle:
+    return DriveCycle(
+        rho_kgpm3=1.225,
+        speed_trace=[
+            (0, 0),
+            (1, 0.5),
+            (2, 1),
+            (3, 1.4),
+            (4, 3),
+            (5, 4.7),
+            (6, 2.3),
+            (7, 0.4),
+            (8, 0),
+        ],
+    )
+
+
 def test_calc_aero_drag_force(a_car):
     # Arrange
     v_mps = kph_to_mps(100)  # kph converted to m/s
@@ -34,7 +53,7 @@ def test_calc_aero_drag_force(a_car):
     # Act
     current_drag = calc_aero_drag_force_N(
         velocity_mps=v_mps,
-        rho_kgm3=rho,
+        rho_kgpm3=rho,
         drag_coeff=a_car.drag_coeff,
         x_sectional_area_m2=a_car.x_sectional_area_m2,
     )  # N
@@ -86,7 +105,7 @@ def test_calc_road_load_force(a_car):
         vehicle=a_car,
         theta_rads=theta,
         v_mps=v_mps,
-        rho_kgm3=rho,
+        rho_kgpm3=rho,
     )
 
     # Assert
@@ -103,7 +122,7 @@ def test_calc_steady_state_power_at_wheels(a_car):
     power_at_wheels = calc_steady_state_power_at_wheels_W(
         vehicle=a_car,
         theta_rads=theta,
-        rho_kgm3=rho,
+        rho_kgpm3=rho,
         velocity_mps=v_mps,
     )
 
@@ -164,7 +183,7 @@ def test_calc_tractive_force(a_car):
         final_velocity_mps=final_velocity_mps,
         time_delta_secs=time_delta_secs,
         theta_rads=theta,
-        rho_kgm3=rho,
+        rho_kgpm3=rho,
     )
 
     # Assert
@@ -186,32 +205,18 @@ def test_calc_tractive_power(a_car):
         final_velocity_mps=final_velocity_mps,
         time_delta_secs=time_delta_secs,
         theta_rads=theta,
-        rho_kgm3=rho,
+        rho_kgpm3=rho,
     )
 
     # Assert
     assert tractive_power == pytest.approx(82292.24472367422)
 
 
-def test_basic_drive_cycle_timestep(a_car):
+def test_basic_drive_cycle_timestep(a_car, noddy_drive_cycle):
     # Arrange
-    noddy_drive_cycle = {
-        "rho": 1.225,
-        "cycle": [
-            (0, 0),
-            (1, 0.5),
-            (2, 1),
-            (3, 1.4),
-            (4, 3),
-            (5, 4.7),
-            (6, 2.3),
-            (7, 0.4),
-            (8, 0),
-        ],
-    }
 
     # Act
     consumption = calc_cycle_consumption_J(vehicle=a_car, drive_cycle=noddy_drive_cycle)
 
     # Assert
-    assert consumption == pytest.approx(1)
+    assert consumption == pytest.approx(11000.399401075001)
