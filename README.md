@@ -15,16 +15,17 @@ Given the cycle's velocity over time, compute the force, torque and power demand
     - Once a skelton sim exists Behaviour Driven Development (BDD) may be useful, so review this in due course.
 
 
-## Plan (WIP)
+## Plan is continual WIP ;-)
 1. Build a road-load calc in Python with a plot.
-2. Road-load model: aero drag + rolling resistance + grade vs speed.
-3. Steady-state consumption: introduce a BSFC map (ICE) or efficiency map (motor) at fixed speed.
-4. Drive-cycle sim: ingest a cycle, run quasi-static, output L/100km or kWh/100km. First "real" result.
-5. Swappable powertrains: ICE vs BEV vs hybrid on the same cycle — the comparison.
-6. Gearing and operating points.
-7. Forward-facing sim with a driver/PID model — introduces time-stepping and ODE integration
-8. Lap-time sim: add a grip/curvature model.
-9. Optimisation, validation against real data, a small dashboard.
+1. Road-load model: aero drag + rolling resistance + grade vs speed.
+1. Steady-state consumption: introduce a BSFC map (ICE) or efficiency map (motor) at fixed speed.
+1. Drive-cycle sim: ingest a cycle, run quasi-static, output L/100km or kWh/100km. (First "real" result.)
+1. (prob worth setting up main branch and CI to run tests at this point?)
+1. Swappable powertrains: ICE vs BEV vs hybrid on the same cycle — the comparison.
+1. Gearing and operating points.
+1. Forward-facing sim with a driver/PID model — introduces time-stepping and ODE integration
+1. Lap-time sim: add a grip/curvature model.
+1. Future: Optimisation, validation against real data, a small dashboard.
 
 ## Notes for future review?
 - pint for baking units into variables? vs pydantic?
