@@ -105,18 +105,24 @@ def test_calc_motor_electrical_power_in():
     assert elec_power_into_motor == pytest.approx(73736.1025777288)
 
 
-def test_calc_inertial_force():
+@pytest.mark.parametrize(
+    "v1_kph, v2_kph",
+    [
+        (100, 101),
+        (10, 11),
+        (150, 151),
+    ],
+)
+def test_calc_inertial_force_independent_of_speed(v1_kph, v2_kph):
     # Arrange
     mass = 1300  # kg
-    v1 = kph_to_mps(100)  # mps
-    v2 = kph_to_mps(101)  # mps
     dt = 1  # sec
 
     # Act
     force = calc_inertial_force(
         vehicle_mass_kg=mass,
-        initial_velocity_mps=v1,
-        final_velocity_mps=v2,
+        initial_velocity_mps=kph_to_mps(v1_kph),
+        final_velocity_mps=kph_to_mps(v2_kph),
         time_delta_secs=dt,
     )
 
