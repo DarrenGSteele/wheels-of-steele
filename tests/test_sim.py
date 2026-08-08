@@ -6,9 +6,9 @@ from sim import (
     calc_grade_force,
     calc_inertial_force,
     calc_motor_electrical_power_in,
-    calc_power_at_wheels,
     calc_road_load_force,
     calc_rolling_resistance,
+    calc_steady_state_power_at_wheels,
     calc_tractive_force,
     calc_tractive_power,
 )
@@ -88,13 +88,13 @@ def test_calc_road_load_force():
     assert road_load_force == pytest.approx(2601.409698942273)
 
 
-def test_calc_power_at_wheels():
+def test_calc_steady_state_power_at_wheels():
     # Arrange
     road_load_force = 2601.409698942273  # N
     velocity = kph_to_mps(100)  # m/s
 
     # Act
-    power_at_wheels = calc_power_at_wheels(
+    power_at_wheels = calc_steady_state_power_at_wheels(
         road_load_force_N=road_load_force, velocity_mps=velocity
     )
 
@@ -158,15 +158,15 @@ def test_calc_tractive_force():
 def test_calc_tractive_power():
     # Arrange
     tractive_force = 2962.520810052272  # N
-    mass = 1300  # kg
+    velocity = kph_to_mps(100)
 
     # Act
     tractive_power = calc_tractive_power(
-        tractive_force_N=tractive_force, vehicle_mass_kg=mass
+        tractive_force_N=tractive_force, velocity_mps=velocity
     )
 
     # Assert
-    assert tractive_power == pytest.approx(3851277.0530679533)
+    assert tractive_power == pytest.approx(82292.24472367422)
 
 
 def test_basic_drive_cycle_timestep():

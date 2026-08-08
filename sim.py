@@ -41,7 +41,9 @@ def calc_road_load_force(
     )
 
 
-def calc_power_at_wheels(road_load_force_N: float, velocity_mps: float) -> float:
+def calc_steady_state_power_at_wheels(
+    road_load_force_N: float, velocity_mps: float
+) -> float:
     return road_load_force_N * velocity_mps
 
 
@@ -66,8 +68,8 @@ def calc_tractive_force(inertial_force_N: float, road_load_force_N: float) -> fl
     return inertial_force_N + road_load_force_N
 
 
-def calc_tractive_power(vehicle_mass_kg: float, tractive_force_N: float) -> float:
-    return tractive_force_N * vehicle_mass_kg
+def calc_tractive_power(velocity_mps: float, tractive_force_N: float) -> float:
+    return tractive_force_N * velocity_mps
 
 
 def calc_cycle_consumption(vehicle: dict, drive_cycle: dict) -> float:
