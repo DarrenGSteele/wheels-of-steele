@@ -5,6 +5,7 @@ from sim import (
     Vehicle,
     calc_aero_drag_force_N,
     calc_cycle_consumption_J,
+    calc_cycle_economy_kWhpkm,
     calc_grade_force_N,
     calc_inertial_force_N,
     calc_motor_electrical_power_in_W,
@@ -220,3 +221,15 @@ def test_basic_drive_cycle_timestep(a_car, noddy_drive_cycle):
 
     # Assert
     assert consumption == pytest.approx(11000.399401075001)
+
+
+def test_drive_cycle_fuel_economy(vehicle=a_car, drive_cycle=noddy_drive_cycle):
+    # Arrange
+
+    # Act
+    fuel_economy = calc_cycle_economy_kWhpkm(
+        vehicle=a_car, drive_cycle=noddy_drive_cycle
+    )
+
+    # Assert
+    assert fuel_economy == 1

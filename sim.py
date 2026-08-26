@@ -147,3 +147,8 @@ def calc_cycle_consumption_J(vehicle: Vehicle, drive_cycle: dict) -> float:
             energy_J, 0
         )  # TODO: clamping to 0 until braking/regen implemented
     return consumption_j
+
+
+def calc_cycle_economy_kWhpkm(vehicle: Vehicle, drive_cycle: dict) -> float:
+
+    pass
