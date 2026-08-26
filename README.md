@@ -9,6 +9,12 @@ Initially, it will be a longitudinal vehicle dynamics model, to produce a drive 
 
 Given the cycle's velocity over time, compute the force, torque and power demanded, then the fuel or energy consumed to arrive at a comparable "fuel economy" figure.
 
+# Quick start
+```
+uv sync
+uv run pytest
+```
+
 # Approach and conventions
 - The sim will use SI units and convert on the boundary of passing information in and out, this will likely be a source of bugs which may take time to spot without careful handling.
 - The intention is to use a Test Driven Development (TDD) approach for writing the code as good practice to catch issues early.
