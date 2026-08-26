@@ -35,4 +35,4 @@ uv run pytest
 
 ## Notes for future review?
 - pint for baking units into variables? vs pydantic?
-- vs pre-commit or llm to check that all variables hae units in name?
+- vs pre-commit or llm to check that all variables have units in name?
