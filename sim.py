@@ -132,7 +132,7 @@ def calc_tractive_power_W(
     )
 
 
-def calc_cycle_consumption_J(vehicle: Vehicle, drive_cycle: dict) -> float:
+def calc_cycle_consumption_J(vehicle: Vehicle, drive_cycle: DriveCycle) -> float:
     consumption_j = 0
     for (t0, v0), (t1, v1) in pairwise(drive_cycle.speed_trace):
         energy_J = calc_tractive_power_W(
@@ -148,7 +148,11 @@ def calc_cycle_consumption_J(vehicle: Vehicle, drive_cycle: dict) -> float:
         )  # TODO: clamping to 0 until braking/regen implemented
     return consumption_j
 
+def calc_cycle_distance_m(drive_cycle: DriveCycle) -> float:
+    distance_m = 0
+    for (t0, v0), (t1, v1) in pairwise(drive_cycle.speed_trace):
+        distance_m += ((v0 + v1)/2) * (t1 - t0)
+    return distance_m
 
-def calc_cycle_economy_kWhpkm(vehicle: Vehicle, drive_cycle: dict) -> float:
-
-    pass
+def calc_cycle_economy_Jpm(vehicle: Vehicle, drive_cycle: DriveCycle) -> float:
+    return calc_cycle_consumption_J(vehicle, drive_cycle) / calc_cycle_distance_m(drive_cycle)

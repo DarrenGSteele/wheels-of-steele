@@ -5,7 +5,8 @@ from sim import (
     Vehicle,
     calc_aero_drag_force_N,
     calc_cycle_consumption_J,
-    calc_cycle_economy_kWhpkm,
+    calc_cycle_distance_m,
+    calc_cycle_economy_Jpm,
     calc_grade_force_N,
     calc_inertial_force_N,
     calc_motor_electrical_power_in_W,
@@ -15,7 +16,7 @@ from sim import (
     calc_tractive_force_N,
     calc_tractive_power_W,
 )
-from units import deg_to_rad, kph_to_mps
+from units import deg_to_rad, kph_to_mps, Jpm_to_kWhpkm
 
 
 @pytest.fixture
@@ -215,21 +216,32 @@ def test_calc_tractive_power(a_car):
 
 def test_basic_drive_cycle_timestep(a_car, noddy_drive_cycle):
     # Arrange
-
     # Act
     consumption = calc_cycle_consumption_J(vehicle=a_car, drive_cycle=noddy_drive_cycle)
 
     # Assert
     assert consumption == pytest.approx(11000.399401075001)
 
+def test_drive_cycle_distance_metres(a_car, noddy_drive_cycle):
+    # Arrange
+    # Act
+    drive_cycle_distance = calc_cycle_distance_m(drive_cycle=noddy_drive_cycle)
 
-def test_drive_cycle_fuel_economy(vehicle=a_car, drive_cycle=noddy_drive_cycle):
+    # Assert
+    assert drive_cycle_distance == pytest.approx(13.299999999999999)
+
+
+def test_drive_cycle_fuel_economy(a_car, noddy_drive_cycle):
     # Arrange
 
     # Act
-    fuel_economy = calc_cycle_economy_kWhpkm(
+    fuel_economy_Jpm = calc_cycle_economy_Jpm(
         vehicle=a_car, drive_cycle=noddy_drive_cycle
+    )
+    fuel_economy_kWhpkm = Jpm_to_kWhpkm(calc_cycle_economy_Jpm(
+        vehicle=a_car, drive_cycle=noddy_drive_cycle)
     )
 
     # Assert
-    assert fuel_economy == 1
+    assert fuel_economy_Jpm == pytest.approx(827.0976993289476)
+    assert fuel_economy_kWhpkm == pytest.approx(0.22974936092470766)

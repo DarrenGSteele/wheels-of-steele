@@ -17,8 +17,9 @@ uv run pytest
 
 # Approach and conventions
 - The sim will use SI units and convert on the boundary of passing information in and out, this will likely be a source of bugs which may take time to spot without careful handling.
+- Agent use as a tutor/coach is encouraged especially to aid consideration of design patterns etc., but the intention is to write the code manually in this project. 
 - The intention is to use a Test Driven Development (TDD) approach for writing the code as good practice to catch issues early.
-    - Once a skelton sim exists Behaviour Driven Development (BDD) may be useful, so review this in due course.
+    - Once a skeleton sim exists Behaviour Driven Development (BDD) may be useful, so review this in due course.
 
 
 ## Plan is continual WIP ;-)
